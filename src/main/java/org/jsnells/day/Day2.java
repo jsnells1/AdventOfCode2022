@@ -1,6 +1,7 @@
 package org.jsnells.day;
 
 import lombok.NoArgsConstructor;
+import org.jsnells.util.MathUtil;
 
 import java.util.Arrays;
 
@@ -15,7 +16,18 @@ public class Day2 extends Day {
 
     @Override
     public Object partTwo() {
-        return "";
+        return Arrays.stream(this.getInputText().split(NEW_LINE_SEPARATOR))
+                .mapToInt(l -> {
+                    String[] choices = l.split(" ");
+                    int oppChoice = scoreForChoice(choices[0]);
+
+                    return switch (choices[1]) {
+                        case "X" -> MathUtil.wrapAround(oppChoice, -1, 1, 3);
+                        case "Y" -> 3 + oppChoice;
+                        case "Z" -> 6 + MathUtil.wrapAround(oppChoice, 1, 1, 3);
+                        default -> throw new RuntimeException();
+                    };
+                }).sum();
     }
 
     private int sumMatch(String match) {
@@ -27,17 +39,11 @@ public class Day2 extends Day {
             return 3 + myChoice;
         }
 
-        if (getTargetNum(myChoice) == oppChoice) {
+        if (MathUtil.wrapAround(myChoice, -1, 1, 3) == oppChoice) {
             return 6 + myChoice;
         }
 
         return myChoice;
-    }
-    
-    int getTargetNum(int v) {
-        v -= 2;
-        v += (1 - v / 3) * 3;
-        return v % 3 + 1;
     }
 
     private int scoreForChoice(String choice) {
