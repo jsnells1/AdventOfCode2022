@@ -10,13 +10,13 @@ public class Solver {
     private static final String DAY_CLASS_PATTERN = "^Day\\d+\\.class$";
     private static final String DAY_PACKAGE = "org.jsnells.day";
     private static final String DAY_PACKAGE_AS_RESOURCE = DAY_PACKAGE.replace(".", "/");
-    
+
     public void solveLatest() {
         final var latestDay = getLatestDay();
 
         assert latestDay != null;
-        System.out.println(latestDay.partOne());
-        System.out.println(latestDay.partTwo());
+        System.out.println("Part 1: " + latestDay.partOne());
+        System.out.println("Part 2: " + latestDay.partTwo());
     }
 
     private Day getLatestDay() {
@@ -44,7 +44,6 @@ public class Solver {
 
 
         final var clazzName = reader.lines()
-                .peek(System.out::println)
                 .filter(l -> l.matches(DAY_CLASS_PATTERN))
                 .max(Comparator.naturalOrder());
 
