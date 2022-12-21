@@ -8,7 +8,7 @@ import java.util.Comparator;
 @NoArgsConstructor
 public class Day1 extends Day {
     @Override
-    public String partOne() {
+    public Object partOne() {
         var elves = this.getInputText().split(EMPTY_LINE_SEPARATOR);
 
         int max = 0;
@@ -17,11 +17,11 @@ public class Day1 extends Day {
             max = Integer.max(max, Arrays.stream(elf.split(NEW_LINE_SEPARATOR)).mapToInt(Integer::parseInt).sum());
         }
 
-        return Integer.toString(max);
+        return max;
     }
 
     @Override
-    public String partTwo() {
+    public Object partTwo() {
         var elves = this.getInputText().split(EMPTY_LINE_SEPARATOR);
 
         return Arrays.stream(elves)
@@ -30,6 +30,6 @@ public class Day1 extends Day {
                 .sorted(Comparator.reverseOrder())
                 .limit(3)
                 .mapToInt(Integer::intValue)
-                .sum() + "";
+                .sum();
     }
 }

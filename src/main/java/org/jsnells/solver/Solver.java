@@ -15,8 +15,8 @@ public class Solver {
         final var latestDay = getLatestDay();
 
         assert latestDay != null;
-        System.out.println("Part 1: " + latestDay.partOne());
-        System.out.println("Part 2: " + latestDay.partTwo());
+        System.out.println("Part 1: " + latestDay.partOne().toString());
+        System.out.println("Part 2: " + latestDay.partTwo().toString());
     }
 
     private Day getLatestDay() {

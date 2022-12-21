@@ -15,9 +15,13 @@ public abstract class Day {
     @Getter
     private final String inputText = loadInputText();
 
-    public abstract String partOne();
+    public Object partOne() {
+        return "";
+    }
 
-    public abstract String partTwo();
+    public Object partTwo() {
+        return "";
+    }
 
     private String loadInputText() {
         String inputFileName = this.getClass().getSimpleName().toLowerCase() + ".txt";
