@@ -9,6 +9,27 @@ import java.util.List;
 public class Day7 extends Day {
     @Override
     public Object partOne() {
+        var root = buildFileStructure();
+
+        root.computeSize();
+
+        return root.filesUnder100000().stream().mapToLong(f -> f.size).sum();
+    }
+
+    @Override
+    public Object partTwo() {
+        var root = buildFileStructure();
+        root.computeSize();
+
+
+        var targetSpace = 70000000;
+        var unusedSpace = targetSpace - root.size;
+        var neededSpace = 30000000 - unusedSpace;
+
+        return root.filesOverValue(neededSpace).stream().mapToLong(f -> f.size).min().getAsLong();
+    }
+
+    private ElfFile buildFileStructure() {
         var lines = this.getInputText().split(NEW_LINE_SEPARATOR);
 
         var root = new ElfFile(0, "/", true);
@@ -35,14 +56,7 @@ public class Day7 extends Day {
             }
         }
 
-        root.computeSize();
-
-        return root.filesUnder100000().stream().mapToLong(f -> f.size).sum();
-    }
-
-    @Override
-    public Object partTwo() {
-        return "";
+        return root;
     }
 
 
@@ -97,6 +111,20 @@ public class Day7 extends Day {
 
             for (var child : children) {
                 files.addAll(child.filesUnder100000());
+            }
+
+            return files;
+        }
+
+        public List<ElfFile> filesOverValue(long value) {
+            List<ElfFile> files = new ArrayList<>();
+
+            if (this.size >= value && isDir) {
+                files.add(this);
+            }
+
+            for (var child : children) {
+                files.addAll(child.filesOverValue(value));
             }
 
             return files;
