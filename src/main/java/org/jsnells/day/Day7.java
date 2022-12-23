@@ -10,7 +10,6 @@ public class Day7 extends Day {
     @Override
     public Object partOne() {
         var root = buildFileStructure();
-
         root.computeSize();
 
         return root.filesUnder100000().stream().mapToLong(f -> f.size).sum();
@@ -21,12 +20,9 @@ public class Day7 extends Day {
         var root = buildFileStructure();
         root.computeSize();
 
+        var neededSpace = 30000000 - (70000000 - root.size);
 
-        var targetSpace = 70000000;
-        var unusedSpace = targetSpace - root.size;
-        var neededSpace = 30000000 - unusedSpace;
-
-        return root.filesOverValue(neededSpace).stream().mapToLong(f -> f.size).min().getAsLong();
+        return root.filesOverValue(neededSpace).stream().mapToLong(f -> f.size).min().orElseThrow();
     }
 
     private ElfFile buildFileStructure() {
