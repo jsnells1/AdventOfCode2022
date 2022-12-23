@@ -24,7 +24,20 @@ public class Day4 extends Day {
 
     @Override
     public Object partTwo() {
-        return "";
+        var sections = this.getInputText().split(NEW_LINE_SEPARATOR);
+
+        int count = 0;
+        for (var section : sections) {
+            var ranges = section.split(",");
+            var range1 = new Range(ranges[0]);
+            var range2 = new Range(ranges[1]);
+
+            if (range1.overlaps(range2) || range2.overlaps(range1)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     private static class Range {
@@ -42,8 +55,8 @@ public class Day4 extends Day {
             return this.max >= range.max && this.min <= range.min;
         }
 
-        public int size() {
-            return max - min;
+        public boolean overlaps(Range range) {
+            return (this.min <= range.min && this.max >= range.min) || (this.min <= range.max && this.max >= range.max);
         }
     }
 }
