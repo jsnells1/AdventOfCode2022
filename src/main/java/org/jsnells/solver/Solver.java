@@ -13,10 +13,21 @@ public class Solver {
 
     public void solveLatest() {
         final var latestDay = getLatestDay();
-
         assert latestDay != null;
-        System.out.println("Part 1: " + latestDay.partOne().toString());
-        System.out.println("Part 2: " + latestDay.partTwo().toString());
+
+        var start = System.currentTimeMillis();
+        var partOne = latestDay.partOne();
+        var end = System.currentTimeMillis();
+
+        System.out.println("Part 1: " + partOne.toString());
+        System.out.printf("Runtime: %dms\n", end - start);
+
+        start = System.currentTimeMillis();
+        var partTwo = latestDay.partTwo();
+        end = System.currentTimeMillis();
+
+        System.out.println("Part 2: " + partTwo.toString());
+        System.out.printf("Runtime: %dms\n", end - start);
     }
 
     private Day getLatestDay() {
