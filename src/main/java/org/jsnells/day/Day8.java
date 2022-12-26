@@ -7,19 +7,13 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @NoArgsConstructor
 public class Day8 extends Day {
     @Override
     public Object partOne() {
-        var lines = Arrays.stream(this.getInputText().split(NEW_LINE_SEPARATOR)).map(s ->
-        {
-            ArrayList<Integer> list = new ArrayList<>();
-            for (int i = 0; i < s.length(); i++) {
-                list.add(Integer.parseInt(s.charAt(i) + ""));
-            }
-            return list;
-        }).toList();
+        var lines = this.getParsedInput();
 
         var visibleTrees = new HashSet<Tree>();
 
@@ -66,14 +60,7 @@ public class Day8 extends Day {
 
     @Override
     public Object partTwo() {
-        var lines = Arrays.stream(this.getInputText().split(NEW_LINE_SEPARATOR)).map(s ->
-        {
-            ArrayList<Integer> list = new ArrayList<>();
-            for (int i = 0; i < s.length(); i++) {
-                list.add(Integer.parseInt(s.charAt(i) + ""));
-            }
-            return list;
-        }).toList();
+        var lines = this.getParsedInput();
 
         int maxScenicScore = 0;
         for (int x = 0; x < lines.size(); x++) {
@@ -86,7 +73,7 @@ public class Day8 extends Day {
                 while (--north >= 0) {
                     northScore++;
 
-                    if (lines.get(north).get(x) >= tree)
+                    if (this.getTree(lines, x, north) >= tree)
                         break;
                 }
 
@@ -96,7 +83,7 @@ public class Day8 extends Day {
                 while (++south < lines.size()) {
                     southScore++;
 
-                    if (lines.get(south).get(x) >= tree)
+                    if (this.getTree(lines, x, south) >= tree)
                         break;
                 }
 
@@ -106,7 +93,7 @@ public class Day8 extends Day {
                 while (++east < lines.size()) {
                     eastScore++;
 
-                    if (lines.get(y).get(east) >= tree)
+                    if (this.getTree(lines, east, y) >= tree)
                         break;
                 }
 
@@ -116,7 +103,7 @@ public class Day8 extends Day {
                 while (--west >= 0) {
                     westScore++;
 
-                    if (lines.get(y).get(west) >= tree)
+                    if (this.getTree(lines, west, y) >= tree)
                         break;
                 }
 
@@ -125,6 +112,22 @@ public class Day8 extends Day {
         }
 
         return maxScenicScore;
+    }
+
+
+    private int getTree(List<List<Integer>> trees, int x, int y) {
+        return trees.get(y).get(x);
+    }
+
+    private List<List<Integer>> getParsedInput() {
+        return Arrays.stream(this.getInputText().split(NEW_LINE_SEPARATOR)).map(s ->
+        {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < s.length(); i++) {
+                list.add(Integer.parseInt(s.charAt(i) + ""));
+            }
+            return list;
+        }).toList();
     }
 
     @EqualsAndHashCode
