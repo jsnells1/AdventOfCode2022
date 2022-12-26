@@ -3,7 +3,6 @@ package org.jsnells.day;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,10 +66,71 @@ public class Day8 extends Day {
 
     @Override
     public Object partTwo() {
-        return "";
+        var lines = Arrays.stream(this.getInputText().split(NEW_LINE_SEPARATOR)).map(s ->
+        {
+            ArrayList<Integer> list = new ArrayList<>();
+            for (int i = 0; i < s.length(); i++) {
+                list.add(Integer.parseInt(s.charAt(i) + ""));
+            }
+            return list;
+        }).toList();
+
+        int maxScenicScore = 0;
+        for (int x = 0; x < lines.size(); x++) {
+            for (int y = 0; y < lines.size(); y++) {
+                if (x == 2 && y == 3) {
+                    System.out.println("debug");
+                }
+
+                var tree = lines.get(y).get(x);
+
+                // North scenic score
+                int north = y;
+                int northScore = 0;
+                while (--north >= 0) {
+                    northScore++;
+
+                    if (lines.get(north).get(x) >= tree)
+                        break;
+                }
+
+                // South scenic score
+                int south = y;
+                int southScore = 0;
+                while (++south < lines.size()) {
+                    southScore++;
+
+                    if (lines.get(south).get(x) >= tree)
+                        break;
+                }
+
+                // East scenic score
+                int east = x;
+                int eastScore = 0;
+                while (++east < lines.size()) {
+                    eastScore++;
+
+                    if (lines.get(y).get(east) >= tree)
+                        break;
+                }
+
+                // West scenic score
+                int west = x;
+                int westScore = 0;
+                while (--west >= 0) {
+                    westScore++;
+
+                    if (lines.get(y).get(west) >= tree)
+                        break;
+                }
+
+                maxScenicScore = Math.max(maxScenicScore, northScore * southScore * eastScore * westScore);
+            }
+        }
+
+        return maxScenicScore;
     }
 
-    @ToString
     @EqualsAndHashCode
     @RequiredArgsConstructor
     private static class Tree {
