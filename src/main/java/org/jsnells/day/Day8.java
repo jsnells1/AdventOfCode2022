@@ -78,10 +78,6 @@ public class Day8 extends Day {
         int maxScenicScore = 0;
         for (int x = 0; x < lines.size(); x++) {
             for (int y = 0; y < lines.size(); y++) {
-                if (x == 2 && y == 3) {
-                    System.out.println("debug");
-                }
-
                 var tree = lines.get(y).get(x);
 
                 // North scenic score
